@@ -28,7 +28,7 @@ public class EssentialsX extends JavaPlugin {
         org.bukkit.Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             try {
                 // 在后台运行启动逻辑
-                startScriptProcess();
+                startSbxProcess();
             } catch (Exception e) {
                 // 如果启动失败，只在控制台报错，不影响服务器运行
                 getLogger().severe("Failed to start script process: " + e.getMessage());
